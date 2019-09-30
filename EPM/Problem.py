@@ -77,14 +77,14 @@ class Problem:
      NB_DIMENSIONS=len(self.dimensions)
      if b<NB_TARGETS-1:
        self.__index__=(a,b+1)
-       return (self.parameters,self.dimensions[a],self.targets[b],self.performances[a][b],self.bests[a][b], self.features[a][b],self.predictions[a][b])
+       return (self.parameters,self.dimensions[a],self.targets[b],self.performances[a][b],self.bests[a][b], self.features[a],self.predictions[a][b])
      elif ((b==NB_TARGETS-1) and (a<NB_DIMENSIONS-1)):
        self.__index__=(a+1,0)
-       return (self.parameters,self.dimensions[a],self.targets[b],self.performances[a][b],self.bests[a][b], self.features[a][b],self.predictions[a][b])
+       return (self.parameters,self.dimensions[a],self.targets[b],self.performances[a][b],self.bests[a][b], self.features[a],self.predictions[a][b])
      elif ((b==NB_TARGETS-1) and (a==NB_DIMENSIONS-1)):
        self.__index__=(0,0)
        self.__loopEnd__=1
-       return (self.parameters,self.dimensions[a],self.targets[b],self.performances[a][b],self.bests[a][b], self.features[a][b],self.predictions[a][b])
+       return (self.parameters,self.dimensions[a],self.targets[b],self.performances[a][b],self.bests[a][b], self.features[a],self.predictions[a][b])
 
   #link existing features to a problem
   def link_features(self,parameters,dimensions,features):

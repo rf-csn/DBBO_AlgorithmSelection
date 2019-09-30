@@ -14,6 +14,7 @@ class EmpiricalPerformanceModel:
     if input_type not in ["parameters","features"]:
       raise Exception('EmpiricalPerformanceModel, bad input_type', str(input_type))
     self.numberOfFeatures=numberOfFeatures
+    self.input_size=numberOfFeatures
     self.numberOfAlgorithms=numberOfAlgorithms
     self.input_type=input_type
     self.selector=selector
@@ -63,3 +64,7 @@ class EmpiricalPerformanceModel:
     if input_type not in ["parameters","features"]:
       raise Exception('EmpiricalPerformanceModel, bad input_type', str(input_type))
     self.input_type=input_type
+    if input_type=="parameters":
+      self.numberOfFeatures=len(self.parameters)
+    if input_type=="features":
+      self.input_size=len(self.parameters)
