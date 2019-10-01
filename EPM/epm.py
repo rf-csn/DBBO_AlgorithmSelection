@@ -19,13 +19,15 @@ class EmpiricalPerformanceModel:
     self.selector=selector
     self.learning_method=learning_method
 
-  def reset_model(learning_method=Learning_method.classical_forestRegression()):
+  def reset_model(self,learning_method=Learning_method.classical_forestRegression()):
     self.learning_method=learning_method
 
   #this function use the selector to split data into two sets
   #the first one is the training set, used to train the model
   #the second is the testing set, used to test the model
-  def build_training_and_testing_sets(self,data):
+  def build_training_and_testing_sets(self,data,numberOfTry=2):
+    if numberOfTry==0:
+      raise  Exception('EmpiricalPerformanceModel:', 'Empty training set')
     Training_set=[]
     Testing_set=[]
     for item in data:
@@ -33,9 +35,12 @@ class EmpiricalPerformanceModel:
         Training_set.append(item)
       else:
         Testing_set.append(item)
-    self.training_set=Training_set
-    self.testing_set=Testing_set
-
+    if len(Training_set)>0:
+      self.training_set=Training_set
+      self.testing_set=Testing_set
+    else:
+      print("Warning : empty training set.\ntry to build the training set left : "+str(numberOfTry-1)+"\n")
+      build_training_and_testing_sets(self,data,numberOfTry=numberOfTry-1)
   #train the model to predict.
   #use all training_set instance to learn from them
   def train_model(self):

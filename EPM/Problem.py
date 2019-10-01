@@ -1,4 +1,5 @@
 # This file contains basic class to store problems efficiently for the training
+"""
 if __name__ == "__main__":
   NB_PARAMETERS=4
   NB_DIMENSIONS=5
@@ -7,7 +8,7 @@ if __name__ == "__main__":
   TARGET_LIST=[0.5,0.75,0.90,0.95,1.0]
   NB_ALGORITHMS=9
   ALGORITHMS=["(1+(lda_lda))","(1+1)EA","(1+10)EA1","(1+10)EA3","(1+10)FGA","(1+2)EA","1hill","2hill","RandomSearch"]
-
+"""
 class Problem:
   #instanciate problem in a tree structure:
   # problem parameters (dummy, neutrality, epistasis, ruggedness)

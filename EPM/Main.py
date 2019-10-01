@@ -5,6 +5,7 @@ import Problem
 import Load_Data
 import epm
 import Selector
+import Statistic
 ALGORITHMS = ["(1+(lda_lda))","(1+1)EA","(1+10)EA1","(1+10)EA3","(1+10)FGA","(1+2)EA","1hill","2hill","RandomSearch"]
 filename="../DATA_PERFORMANCES/Algorithms_Performances_compact.csv"
 features_file="../DATA_PERFORMANCES/features_ordered.csv"
@@ -31,12 +32,29 @@ def Main(filename,features_file,Algorithms,number_of_features,filter_target):
   print("  [OK]\nTrain EPM",end="")
   model.train_model()
   print("  [OK]\nTest EPM",end="")
-
   model.test_model()
   print("  [OK]\n")
 
-  for i in model.get_results():
-    print(i)
   print("\nNumber of problems : "+str(len(model.get_results()))+"\n")
-
+  SBS=Statistic.SingleBestSolver(model)
+  VBS=Statistic.VirtualBestSolver(model)
+  RS=Statistic.RealSolver(model)
+  Merit=Statistic.Merit(SBS,VBS,RS)
+  print("SBS "+str(SBS))
+  print("VBS "+str(VBS))
+  print("RS "+str(RS))
+  print("Merit "+str(Merit))
+  model.reset_model()
+  model.set_input_type('features')
+  model.train_model()
+  model.test_model()
+  SBS=Statistic.SingleBestSolver(model)
+  VBS=Statistic.VirtualBestSolver(model)
+  RS=Statistic.RealSolver(model)
+  Merit=Statistic.Merit(SBS,VBS,RS)
+  print("SBS "+str(SBS))
+  print("VBS "+str(VBS))
+  print("RS "+str(RS))
+  print("Merit "+str(Merit))
+  
 Main(filename,features_file,ALGORITHMS,number_of_features,filter_target)
