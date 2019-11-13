@@ -1,0 +1,122 @@
+This file is a summary of all functions available in the the framework
+
+
+--------------file Load_Data.py :--------------
+-load_data(filename,algorithms,filter_dim=[],filter_target=[])
+	arg 		type		info
+	filename 	string		path to the file
+	algorithms	list of string	names of the algorithms in the same order as in the file "filename"
+	filter_dim	list of integer	skip dimensions in the list
+	filter_target	list of integer	ski targets in the list
+
+This function load the data from a specificated format(*) and return an 
+ordered list of Problems
+
+*data is stored on the form
+>parameters1
+>dim1
+>targ1 Alg1, alg2,...  
+>targ2 Alg1, alg2,...  
+>...
+>dim2
+>targ1 Alg1, alg2,...  
+>targ2 Alg1, alg2,...  
+>...
+>parameters2
+>...
+
+-load_ELA_features(features_file)
+	arg 		type		info
+	features_file	string		path to the file which contains features			
+This function return a list of problem configurations, a list of 
+Dimensions for each configuration and a list of features for all 
+configurations.
+
+If you use different features or a different file than the one in the 
+Git, it might be better to write your own reader.
+
+
+--------------file Problem.py--------------
+-Problem(ALGORITHMS,parameters,dimensions,targets, alg_performances)
+	arg 			type			info
+	ALGORITHMS		list of string		names of the algorithms in the same order as in the file "filename"
+	parameters		not specificated		parameters of the W-Model (list of integer) / can be used for the name of the problem (string)
+	dimensions		list of integer
+	targets			list of float
+	alg_performances	3d-Matrix of integer	Ordered Matrix [dimensions][targets][algorithm] which contains the algorithms performances
+Create a problem object
+
+-str(problem)
+use this to print a problem ! (best perf from data but also predicted algorithm if the epm was running
+
+-iter/next(problem)
+use this to iterate over dimensions and targets of a problem. return the parameters, the actual dimension, the actual target, algorithms 
+performances, best algorithm, features of the problem (if they are somes) and predictions (if epm had been ran before).
+
+-link_features(self,parameters,dimensions,features)
+	arg	 		type			info
+	parameters		not specificated	parameters of the W-Model (list of integer) / can be used for the name of the problem 
+	dimensions		list of integer
+	features		2d-matrix		Ordered Matrix [dimensions][features]
+
+This function set the features use to make prediction for the problem
+
+-link_all_features(ProblemList,ParametersList,DimensionsList,FeaturesList)
+	arg	 		type			info
+	ProblemList		list of Problem		
+	ParametersList		list of"not specificated"
+	DimensionsList		List of list of Integer	This list contains the list of all dimensions for each problem
+	FeaturesList		List of List of features
+
+
+--------------file epm.py--------------
+-epm(number_of_parameters, numberOfFeatures, numberOfAlgorithms, 
+input_type="features",learning_method=Learning_method.classical_forestRegression(),selector=Selector.Random_selector(probability=0.2))
+	arg 			type			info
+	number_of_parameters	integer			size of the array problem.parameters (This is important if you want to make predictions using the W-Model parameters and not real features !!
+	numberOfFeatures	integer			size of the input of the performances prediction model (minus 2 as dimensions and targets are used in the input too)
+	numberOfAlgorithms	integer			size of the output of the performances prediction model
+	input_type		string			type of prediction. "features" use real linked features, "parameters" use problem parameters (white box W-Model)
+	learning_method		class of a learning	for now only random forest regression is implemented
+	selector		class of selector	used to select which problems are in the testing or training set
+
+-set_input_type(self,input_type)
+	arg 			type			info
+	self			epm
+	input_type		string			type of prediction. "features" use real linked features, "parameters" use problem parameters (white box W-Model)
+modify the input type of the epm
+
+-build_training_and_testing_sets(self,data,numberOfTry=2):
+	arg 			type			info
+	self			epm
+	data			list of problems	
+	numberOfTry		integer			number of attempt the epm do to avoid having an empty training set.
+
+Use the selector to split data into a list of training instances and testing instances
+
+-train_model(self):
+	arg 			type			info
+	self			epm
+train the model using all training instance
+
+-test_model(self):
+	arg 			type			info
+	self			epm
+Perform prediction of all testing instances
+
+-predict(self,features)
+	arg 			type			info
+	self			epm
+	features		list of float		use features as input for the epm
+Return predictions given the features (work for both input_type "features" or "parameters")
+
+
+--------------statistics.py--------------
+-SingleBestSolver(epm):
+	arg 			type			info
+-VirtualBestSolver(epm):
+	arg 			type			info
+-RealSolver(epm):
+	arg 			type			info
+-Merit(sbs,vbs,rs):
+	arg 			type			info

@@ -9,6 +9,19 @@ of problem instance), and given features (Landscape characterization
 of the problem) EPM learn to predict algorithms performances given 
 features.
 
+Predictions follow the scheme:
+Problem
+	Dimension		>
+	target			>>>>
+	parameter1/features1	>>>>>>	prediction ==> algorithms performances
+	parameter2/features2	>>>>
+	parameter../features..	>
+
+Interested in using this framework ? See "Main.py" as an example on how 
+to use it. Don't forget to read the documentation for complementary 
+informations/features !
+
+
 
 Files:
 -Main.py : contain an example of how to use the EPM
